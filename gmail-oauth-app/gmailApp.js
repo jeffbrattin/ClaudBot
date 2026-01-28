@@ -32,7 +32,7 @@ app.get('/auth/google', (req, res) => {
     scope: ['https://www.googleapis.com/auth/gmail.readonly',
       'https://www.googleapis.com/auth/gmail.send'  
     ],});
-  res.redirect(authUrl);
+  res.redirect(REDIRECT_URI);
 });
 
 // Handle the OAuth 2.0 server response
