@@ -40,8 +40,8 @@ app.get('/auth/callback', async (req, res) => {
   const { code } = req.query;
   try {
     const { tokens } = await client.getToken(code);
-     await getUserProfile(tokens);
-    // Store the tokens securely as needed (in a database or session)
+    console.log('Tokens:', tokens); // Log tokens to debug
+    await getUserProfile(tokens);
     res.json(tokens);
   } catch (error) {
     console.error('Error retrieving access token:', error);
