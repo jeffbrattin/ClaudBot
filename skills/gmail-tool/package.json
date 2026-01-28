@@ -1,0 +1,11 @@
+{
+  "name": "@clawdbot/gmail-tool",
+  "version": "1.0.0",
+  "description": "Gmail integration for Clawdbot",
+  "main": "index.js",
+  "dependencies": {
+    "google-auth-library": "^9.0.0",
+    "googleapis": "^144.0.0",
+    "dotenv": "^16.0.0"
+  }
+}

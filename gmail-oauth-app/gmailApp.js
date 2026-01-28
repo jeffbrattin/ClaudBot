@@ -62,6 +62,7 @@ app.get('/auth/callback', async (req, res) => {
       'Test email from Clawdbot', 
       'This is a test email sent from Clawdbot using Gmail API!'
     );
+    console.log('🔑 SAVE THIS REFRESH TOKEN:', tokens.refresh_token);
     
     res.send('<h1>Authentication successful!</h1><p>Check your email and server logs.</p>');
   } catch (error) {
