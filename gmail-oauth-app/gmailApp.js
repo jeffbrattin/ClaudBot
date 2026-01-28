@@ -37,6 +37,7 @@ app.get('/', (req, res) => {
 app.get('/auth/google', (req, res) => {
   const authUrl = client.generateAuthUrl({
     access_type: 'offline',
+    prompt: 'consent',  // ADD THIS LINE - forces refresh token
     scope: [
       'https://www.googleapis.com/auth/gmail.readonly',
       'https://www.googleapis.com/auth/gmail.send'  
