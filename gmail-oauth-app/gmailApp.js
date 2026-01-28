@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
-const REDIRECT_URI = 'http://127.0.0.1:18790/auth/callback';
+const REDIRECT_URI = 'http://clawdbot.wonparent.com:3000/auth/callback';
 
 const client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 
