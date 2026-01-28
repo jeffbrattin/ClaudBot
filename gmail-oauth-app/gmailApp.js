@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
-const REDIRECT_URI = 'http://localhost:3000/auth/callback';
+const REDIRECT_URI = 'http://127.0.0.1:18790/auth/callback';
 
 const client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 
@@ -29,8 +29,9 @@ app.get('/', (req, res) => {
 app.get('/auth/google', (req, res) => {
   const authUrl = client.generateAuthUrl({
     access_type: 'offline',
-    scope: ['https://www.googleapis.com/auth/gmail.readonly'],
-  });
+    scope: ['https://www.googleapis.com/auth/gmail.readonly',
+      'https://www.googleapis.com/auth/gmail.send'  
+    ],});
   res.redirect(authUrl);
 });
 
@@ -63,5 +64,5 @@ async function getUserProfile(tokens) {
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://127.0.0.1:${PORT}`);
 });
