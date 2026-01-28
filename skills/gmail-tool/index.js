@@ -17,7 +17,7 @@ const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
 
 // Clawdbot skill definition
 module.exports = {
-  name: 'gmail',
+  name: 'gmail-tool',
   description: 'Read and send Gmail emails',
   version: '1.0.0',
   
