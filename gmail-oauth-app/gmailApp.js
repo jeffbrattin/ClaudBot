@@ -15,6 +15,16 @@ const REDIRECT_URI = 'http://clawdbot.wonparent.com:3000/auth/callback';
 
 const client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 
+if (!CLIENT_ID || !CLIENT_SECRET) {
+  console.error('ERROR: GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET must be set!');
+  console.error('Make sure you have a .env file with these values');
+  process.exit(1);
+}
+
+console.log('✓ CLIENT_ID loaded');
+console.log('✓ CLIENT_SECRET loaded');
+console.log('✓ REDIRECT_URI:', REDIRECT_URI);
+
 // Middleware for Content Security Policy
 app.use((req, res, next) => {
   res.setHeader("Content-Security-Policy", "default-src *; script-src * 'unsafe-inline' 'unsafe-eval';");
