@@ -3,9 +3,9 @@ const { google } = require('googleapis');
 const { OAuth2Client } = require('google-auth-library');
 
 // Load credentials from environment
-const CLIENT_ID = process.env.GOOGLE_DESKTOPCLIENT_ID;
-const CLIENT_SECRET = process.env.GOOGLE_DESKTOPCLIENT_SECRET;
-const REFRESH_TOKEN = process.env.GOOGLE_DESKTOP_REFRESH_TOKEN; // You'll need to save this from your OAuth flow
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+const REFRESH_TOKEN = process.env.GOOGLE_REFRESH_TOKEN; // You'll need to save this from your OAuth flow
 
 // Minimal logging helper so we can trace failures in production
 const log = (message, meta = {}) => {
