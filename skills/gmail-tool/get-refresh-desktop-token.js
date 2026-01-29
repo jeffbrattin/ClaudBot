@@ -2,8 +2,8 @@
 const { google } = require('googleapis');
 const fs = require('fs');
 
-const CLIENT_ID = process.env.GOOGLE_DESKTOPCLIENT_ID;
-const CLIENT_SECRET = process.env.GOOGLE_DESKTOPCLIENT_SECRET;
+const CLIENT_ID = '82484378178-6nbp206c89027b4gahcu75pu5pukhd2b.apps.googleusercontent.com';
+const CLIENT_SECRET = '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';  // your desktop secret
 const REDIRECT_URI = 'http://localhost'; // or 'urn:ietf:wg:oauth:2.0:oob' for manual
 
 const oauth2Client = new google.auth.OAuth2(
