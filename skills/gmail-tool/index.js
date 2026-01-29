@@ -7,6 +7,11 @@ const CLIENT_ID = process.env.GOOGLE_DESKTOPCLIENT_ID;
 const CLIENT_SECRET = process.env.GOOGLE_DESKTOPCLIENT_SECRET;
 const REFRESH_TOKEN = process.env.GOOGLE_DESKTOP_REFRESH_TOKEN; // You'll need to save this from your OAuth flow
 
+// Minimal logging helper so we can trace failures in production
+const log = (message, meta = {}) => {
+  console.log(`[gmail-tool] ${message}`, meta);
+};
+
 // Initialize OAuth2 client
 const oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET);
 oauth2Client.setCredentials({
@@ -42,6 +47,7 @@ module.exports = {
       },
       async execute({ maxResults = 10, query = '' }) {
         try {
+          log('list_emails start', { maxResults, query });
           const response = await gmail.users.messages.list({
             userId: 'me',
             maxResults,
@@ -85,12 +91,15 @@ module.exports = {
             });
           }
 
-          return {
+          const result = {
             success: true,
             count: emailDetails.length,
             emails: emailDetails
           };
+          log('list_emails success', { count: result.count });
+          return result;
         } catch (error) {
+          log('list_emails error', { error: error.message });
           return {
             success: false,
             error: error.message
@@ -122,6 +131,7 @@ module.exports = {
       },
       async execute({ to, subject, body }) {
         try {
+          log('send_email start', { to, subject });
           const message = [
             `From: "Clawdbot" <clawdbotbrattin@gmail.com>`,
             `To: ${to}`,
@@ -144,12 +154,15 @@ module.exports = {
             }
           });
 
-          return {
+          const payload = {
             success: true,
             messageId: result.data.id,
             message: `Email sent successfully to ${to}`
           };
+          log('send_email success', { messageId: payload.messageId });
+          return payload;
         } catch (error) {
+          log('send_email error', { error: error.message });
           return {
             success: false,
             error: error.message
@@ -173,6 +186,7 @@ module.exports = {
       },
       async execute({ messageId }) {
         try {
+          log('read_email start', { messageId });
           const message = await gmail.users.messages.get({
             userId: 'me',
             id: messageId,
@@ -196,7 +210,7 @@ module.exports = {
             }
           }
 
-          return {
+          const payload = {
             success: true,
             email: {
               id: messageId,
@@ -207,7 +221,10 @@ module.exports = {
               body
             }
           };
+          log('read_email success', { messageId });
+          return payload;
         } catch (error) {
+          log('read_email error', { messageId, error: error.message });
           return {
             success: false,
             error: error.message
