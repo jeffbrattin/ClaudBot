@@ -1,25 +1,36 @@
 require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
 
-const gmailSkill = require('./index.js');
 
-async function testSkill() {
-  console.log('--- Starting Manual Skill Test ---');
-  
-  // Find the list_emails tool from the exported skill
-  const listTool = gmailSkill.tools.find(t => t.name === 'list_emails');
-  
-  if (!listTool) {
-    console.error('Error: Could not find list_emails tool in index.js');
-    return;
-  }
-
-  try {
-    console.log('Executing list_emails...');
-    const result = await listTool.execute({ maxResults: 5 });
-    console.log('Execution Result:', JSON.stringify(result, null, 2));
-  } catch (error) {
-    console.error('Test Failed with Error:', error);
-  }
-}
-
-testSkill();
+module.exports = {
+  name: 'gmail-tool',
+  // ... metadata ...
+  tools: [
+    {
+      name: 'list_emails',
+      async execute({ maxResults = 10, query = '' }) {
+        console.log(`[Gmail Skill] Starting to list emails (max: ${maxResults}, query: "${query}")`);
+        try {
+          // ... existing code ...
+          console.log('[Gmail Skill] Successfully fetched email list.');
+          return { success: true, emails: response.data.messages };
+        } catch (error) {
+          console.error('[Gmail Skill] Error listing emails:', error.message);
+          return { success: false, error: error.message };
+        }
+      }
+    },
+    {
+      name: 'get_email_details',
+      async execute({ messageId }) {
+        console.log(`[Gmail Skill] Fetching details for ID: ${messageId}`);
+        try {
+          // ... existing code ...
+          return { success: true, email: details };
+        } catch (error) {
+          console.error(`[Gmail Skill] Error getting details for ${messageId}:`, error.message);
+          return { success: false, error: error.message };
+        }
+      }
+    }
+  ]
+};
