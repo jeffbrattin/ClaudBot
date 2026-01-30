@@ -72,3 +72,7 @@ USER.md
 .env
 /_notes/
 
+skills/gmail-tool/token.json
+**/.env
+**/node_modules
+**/*.log
