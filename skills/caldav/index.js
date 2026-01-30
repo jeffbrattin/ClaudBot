@@ -54,3 +54,5 @@ module.exports = {
     }
   ]
 };
+
+testCalendar();
