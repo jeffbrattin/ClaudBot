@@ -4,8 +4,8 @@
   "description": "Gmail integration for Clawdbot",
   "main": "index.js",
   "dependencies": {
+    "dotenv": "^16.0.0",
     "google-auth-library": "^9.0.0",
-    "googleapis": "^144.0.0",
-    "dotenv": "^16.0.0"
+    "googleapis": "^144.0.0"
   }
 }
