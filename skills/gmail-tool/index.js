@@ -1,11 +1,11 @@
-require('dotenv').config();
+require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
 const { google } = require('googleapis');
 const { OAuth2Client } = require('google-auth-library');
 
 // Load credentials from environment
-const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-const REFRESH_TOKEN = process.env.GOOGLE_REFRESH_TOKEN; // You'll need to save this from your OAuth flow
+const CLIENT_ID = process.env.GOOGLE_DESKTOPCLIENT_ID;
+const CLIENT_SECRET = process.env.GOOGLE_DESKTOPCLIENT_SECRET;
+const REFRESH_TOKEN = process.env.GOOGLE_DESKTOP_REFRESH_TOKEN; // You'll need to save this from your OAuth flow
 
 // Minimal logging helper so we can trace failures in production
 const log = (message, meta = {}) => {
@@ -234,3 +234,40 @@ module.exports = {
     }
   ]
 };
+// CLI handler
+if (require.main === module) {
+  const args = process.argv.slice(2);
+  const command = args[0];
+  const getArg = (flag) => {
+    const index = args.indexOf(flag);
+    return index !== -1 ? args[index + 1] : null;
+  };
+
+  const tool = module.exports.tools.find(t => t.name === {
+    'list': 'list_emails',
+    'read': 'read_email',
+    'send': 'send_email'
+  }[command]);
+
+  if (!tool) {
+    console.error('Usage: node index.js [list|read|send] [options]');
+    console.error('  list  --max N --query "..."');
+    console.error('  read  --id MESSAGE_ID');
+    console.error('  send  --to EMAIL --subject TEXT --body TEXT');
+    process.exit(1);
+  }
+
+  const params = {};
+  if (command === 'list') {
+    params.maxResults = parseInt(getArg('--max')) || 10;
+    params.query = getArg('--query') || '';
+  } else if (command === 'read') {
+    params.messageId = getArg('--id');
+  } else if (command === 'send') {
+    params.to = getArg('--to');
+    params.subject = getArg('--subject');
+    params.body = getArg('--body');
+  }
+
+  tool.execute(params).then(r => console.log(JSON.stringify(r, null, 2))).catch(console.error);
+}
